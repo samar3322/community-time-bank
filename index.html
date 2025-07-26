@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Time Bank</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --secondary: #FF9800;
+            --accent: #2196F3;
+            --light: #f5f5f5;
+            --dark: #333;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #F44336;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #81C784;
+            --primary-dark: #4CAF50;
+            --secondary: #FFB74D;
+            --accent: #64B5F6;
+            --light: #2c2c2c;
+            --dark: #f5f5f5;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .dark-mode body {
+            background-color: #121212;
+            color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn.active {
+            background: white;
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .language-selector {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .dark-mode .card {
+            background: #333;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dark-mode .card-title {
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .dark-mode input, 
+        .dark-mode select, 
+        .dark-mode textarea {
+            background: #444;
+            border-color: #555;
+            color: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #F57C00;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: #1976D2;
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 992px) {
+            .grid-cols-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .service-card {
+            border-left: 4px solid var(--primary);
+        }
+
+        .service-card.request {
+            border-left-color: var(--accent);
+        }
+
+        .balance-card {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .dark-mode .balance-card {
+            background: linear-gradient(135deg, #66BB6A, var(--primary));
+        }
+
+        .balance-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .history-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dark-mode .history-item {
+            border-bottom-color: #444;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-date {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .dark-mode .history-date {
+            color: #aaa;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-bar input, .filter-bar select {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--success);
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        .notification.warning {
+            background: var(--warning);
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dark-mode .leaderboard-item {
+            border-bottom-color: #444;
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-initial {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .dark-mode .modal-content {
+            background: #333;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .dark-mode .close-modal:hover {
+            color: white;
+        }
+
+        .welcome-guide {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .welcome-guide h2 {
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .dark-mode .welcome-guide h2 {
+            color: var(--primary);
+        }
+
+        .guide-steps {
+            text-align: left;
+            margin: 25px 0;
+        }
+
+        .guide-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            margin-bottom: 5px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        .dark-mode footer {
+            background: #222;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-hands-helping"></i>
+                    <span id="app-title">Community Time Bank</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <select class="language-selector" id="language-selector">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                    </select>
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-section="dashboard">
+                    <i class="fas fa-home"></i> <span id="nav-dashboard">Dashboard</span>
+                </button>
+                <button class="nav-btn" data-section="offer">
+                    <i class="fas fa-plus-circle"></i> <span id="nav-offer">Offer Time</span>
+                </button>
+                <button class="nav-btn" data-section="request">
+                    <i class="fas fa-hand-holding-heart"></i> <span id="nav-request">Request Help</span>
+                </button>
+                <button class="nav-btn" data-section="profile">
+                    <i class="fas fa-user"></i> <span id="nav-profile">My Profile</span>
+                </button>
+                <button class="nav-btn" data-section="community">
+                    <i class="fas fa-users"></i> <span id="nav-community">Community</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="grid grid-cols-1 grid-cols-2 grid-cols-3">
+                <div class="card balance-card">
+                    <h3 id="balance-title">My Time Balance</h3>
+                    <div class="balance-value" id="time-balance">0</div>
+                    <p id="balance-desc">hours available</p>
+                    <button class="btn" id="view-history-btn">
+                        <i class="fas fa-history"></i> <span id="view-history-text">View History</span>
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tasks"></i> <span id="my-offers-title">My Offers</span></h3>
+                    <div id="my-offers-list">
+                        <p id="no-offers-text">No active offers</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-bell"></i> <span id="notifications-title">Notifications</span></h3>
+                    <div id="notifications-list">
+                        <p id="no-notifications-text">No new notifications</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-chart-line"></i> <span id="leaderboard-title">Top Helpers</span></h3>
+                <div id="leaderboard-list">
+                    <p id="no-leaders-text">No data yet</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Offer Time Section -->
+        <section id="offer" class="section">
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-plus-circle"></i> <span id="offer-form-title">Offer Your Time</span></h3>
+                <form id="offer-form">
+                    <div class="form-group">
+                        <label for="offer-skill"><span id="skill-label">Skill/Service</span></label>
+                        <input type="text" id="offer-skill" placeholder="e.g., Math Tutoring, Gardening" required>
+                    </div>
+                    <div class="grid grid-cols-2">
+                        <div class="form-group">
+                            <label for="offer-hours"><span id="hours-label">Hours</span></label>
+                            <input type="number" id="offer-hours" min="1" max="10" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer-date"><span id="date-label">Available Date</span></label>
+                            <input type="date" id="offer-date" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="offer-description"><span id="description-label">Description</span></label>
+                        <textarea id="offer-description" rows="3" placeholder="Describe your service..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-paper-plane"></i> <span id="submit-offer-text">Submit Offer</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Request Help Section -->
+        <section id="request" class="section">
+            <div class="filter-bar">
+                <input type="text" id="search-skill" placeholder="Search by skill...">
+                <input type="date" id="filter-date">
+                <select id="filter-category">
+                    <option value="">All Categories</option>
+                    <option value="education">Education</option>
+                    <option value="home">Home Services</option>
+                    <option value="tech">Technology</option>
+                    <option value="health">Health & Wellness</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div class="grid grid-cols-1 grid-cols-2 grid-cols-3" id="available-services">
+                <!-- Service cards will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="section">
+            <div class="grid grid-cols-1 grid-cols-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-user-edit"></i> <span id="edit-profile-title">Edit Profile</span></h3>
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label for="user-name"><span id="name-label">Full Name</span></label>
+                            <input type="text" id="user-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-email"><span id="email-label">Email</span></label>
+                            <input type="email" id="user-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-phone"><span id="phone-label">Phone</span></label>
+                            <input type="tel" id="user-phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-skills-offer"><span id="skills-offer-label">Skills I Can Offer</span></label>
+                            <textarea id="user-skills-offer" rows="3" placeholder="List your skills..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-skills-request"><span id="skills-request-label">Skills I Need</span></label>
+                            <textarea id="user-skills-request" rows="3" placeholder="List skills you need..."></textarea>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-save"></i> <span id="save-profile-text">Save Profile</span>
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-history"></i> <span id="history-title">Exchange History</span></h3>
+                    <div id="exchange-history">
+                        <p id="no-history-text">No exchanges yet</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-file-export"></i> <span id="data-title">Data Management</span></h3>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" id="export-data-btn">
+                        <i class="fas fa-download"></i> <span id="export-text">Export Data</span>
+                    </button>
+                    <button class="btn btn-accent" id="import-data-btn">
+                        <i class="fas fa-upload"></i> <span id="import-text">Import Data</span>
+                    </button>
+                    <button class="btn" style="background: var(--danger);" id="clear-data-btn">
+                        <i class="fas fa-trash"></i> <span id="clear-text">Clear All Data</span>
+                    </button>
+                </div>
+                <input type="file" id="import-file" accept=".json" style="display: none;">
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="section">
+            <div class="grid grid-cols-1 grid-cols-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exchange-alt"></i> <span id="recent-exchanges-title">Recent Exchanges</span></h3>
+                    <div id="recent-exchanges">
+                        <p id="no-exchanges-text">No recent exchanges</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-trophy"></i> <span id="community-leaderboard-title">Community Leaderboard</span></h3>
+                    <div id="community-leaderboard">
+                        <p id="no-community-leaders-text">No data yet</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Request Service Modal -->
+    <div class="modal" id="request-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="request-modal-title">Request This Service</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="request-service-form">
+                <input type="hidden" id="service-id">
+                <div class="form-group">
+                    <label for="request-message"><span id="message-label">Message (Optional)</span></label>
+                    <textarea id="request-message" rows="3" placeholder="Add a message for the service provider..."></textarea>
+                </div>
+                <button type="submit" class="btn">
+                    <i class="fas fa-paper-plane"></i> <span id="send-request-text">Send Request</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Welcome Guide Modal -->
+    <div class="modal" id="welcome-modal">
+        <div class="modal-content">
+            <div class="welcome-guide">
+                <h2 id="welcome-title">Welcome to Community Time Bank!</h2>
+                <p id="welcome-desc">Exchange skills and time with your neighbors</p>
+                
+                <div class="guide-steps">
+                    <div class="guide-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3 id="step1-title">Create Your Profile</h3>
+                            <p id="step1-desc">Tell us about your skills and what you need help with</p>
+                        </div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3 id="step2-title">Offer Your Time</h3>
+                            <p id="step2-desc">Share services you can provide to others</p>
+                        </div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3 id="step3-title">Request Help</h3>
+                            <p id="step3-desc">Find and request services from community members</p>
+                        </div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3 id="step4-title">Track Your Balance</h3>
+                            <p id="step4-desc">Earn hours when you help, spend when you receive help</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn" id="start-btn">
+                    <i class="fas fa-check"></i> <span id="get-started-text">Get Started</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Community Time Bank. <span id="footer-rights">All rights reserved. Created by Samar Jeet Jamwal</span></p>
+        </div>
+    </footer>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Translations
+        const translations = {
+            en: {
+                "app-title": "Community Time Bank",
+                "nav-dashboard": "Dashboard",
+                "nav-offer": "Offer Time",
+                "nav-request": "Request Help",
+                "nav-profile": "My Profile",
+                "nav-community": "Community",
+                "balance-title": "My Time Balance",
+                "balance-desc": "hours available",
+                "view-history-text": "View History",
+                "my-offers-title": "My Offers",
+                "no-offers-text": "No active offers",
+                "notifications-title": "Notifications",
+                "no-notifications-text": "No new notifications",
+                "leaderboard-title": "Top Helpers",
+                "no-leaders-text": "No data yet",
+                "offer-form-title": "Offer Your Time",
+                "skill-label": "Skill/Service",
+                "hours-label": "Hours",
+                "date-label": "Available Date",
+                "description-label": "Description",
+                "submit-offer-text": "Submit Offer",
+                "edit-profile-title": "Edit Profile",
+                "name-label": "Full Name",
+                "email-label": "Email",
+                "phone-label": "Phone",
+                "skills-offer-label": "Skills I Can Offer",
+                "skills-request-label": "Skills I Need",
+                "save-profile-text": "Save Profile",
+                "history-title": "Exchange History",
+                "no-history-text": "No exchanges yet",
+                "data-title": "Data Management",
+                "export-text": "Export Data",
+                "import-text": "Import Data",
+                "clear-text": "Clear All Data",
+                "recent-exchanges-title": "Recent Exchanges",
+                "no-exchanges-text": "No recent exchanges",
+                "community-leaderboard-title": "Community Leaderboard",
+                "no-community-leaders-text": "No data yet",
+                "request-modal-title": "Request This Service",
+                "message-label": "Message (Optional)",
+                "send-request-text": "Send Request",
+                "welcome-title": "Welcome to Community Time Bank!",
+                "welcome-desc": "Exchange skills and time with your neighbors",
+                "step1-title": "Create Your Profile",
+                "step1-desc": "Tell us about your skills and what you need help with",
+                "step2-title": "Offer Your Time",
+                "step2-desc": "Share services you can provide to others",
+                "step3-title": "Request Help",
+                "step3-desc": "Find and request services from community members",
+                "step4-title": "Track Your Balance",
+                "step4-desc": "Earn hours when you help, spend when you receive help",
+                "get-started-text": "Get Started",
+                "footer-rights": "All rights reserved."
+            },
+            hi: {
+                "app-title": "सामुदायिक समय बैंक",
+                "nav-dashboard": "डैशबोर्ड",
+                "nav-offer": "समय प्रदान करें",
+                "nav-request": "सहायता का अनुरोध करें",
+                "nav-profile": "मेरी प्रोफ़ाइल",
+                "nav-community": "समुदाय",
+                "balance-title": "मेरा समय शेष",
+                "balance-desc": "घंटे उपलब्ध",
+                "view-history-text": "इतिहास देखें",
+                "my-offers-title": "मेरे प्रस्ताव",
+                "no-offers-text": "कोई सक्रिय प्रस्ताव नहीं",
+                "notifications-title": "सूचनाएं",
+                "no-notifications-text": "कोई नई सूचना नहीं",
+                "leaderboard-title": "शीर्ष सहायक",
+                "no-leaders-text": "अभी तक कोई डेटा नहीं",
+                "offer-form-title": "अपना समय प्रदान करें",
+                "skill-label": "कौशल/सेवा",
+                "hours-label": "घंटे",
+                "date-label": "उपलब्ध तिथि",
+                "description-label": "विवरण",
+                "submit-offer-text": "प्रस्ताव सबमिट करें",
+                "edit-profile-title": "प्रोफ़ाइल संपादित करें",
+                "name-label": "पूरा नाम",
+                "email-label": "ईमेल",
+                "phone-label": "फ़ोन",
+                "skills-offer-label": "कौशल जो मैं प्रदान कर सकता हूँ",
+                "skills-request-label": "कौशल जिसकी मुझे आवश्यकता है",
+                "save-profile-text": "प्रोफ़ाइल सहेजें",
+                "history-title": "अदला-बदली इतिहास",
+                "no-history-text": "अभी तक कोई अदला-बदली नहीं",
+                "data-title": "डेटा प्रबंधन",
+                "export-text": "डेटा निर्यात करें",
+                "import-text": "डेटा आयात करें",
+                "clear-text": "सभी डेटा साफ़ करें",
+                "recent-exchanges-title": "हाल के लेन-देन",
+                "no-exchanges-text": "कोई हाल का लेन-देन नहीं",
+                "community-leaderboard-title": "सामुदायिक लीडरबोर्ड",
+                "no-community-leaders-text": "अभी तक कोई डेटा नहीं",
+                "request-modal-title": "इस सेवा का अनुरोध करें",
+                "message-label": "संदेश (वैकल्पिक)",
+                "send-request-text": "अनुरोध भेजें",
+                "welcome-title": "सामुदायिक समय बैंक में आपका स्वागत है!",
+                "welcome-desc": "अपने पड़ोसियों के साथ कौशल और समय का आदान-प्रदान करें",
+                "step1-title": "अपनी प्रोफ़ाइल बनाएं",
+                "step1-desc": "हमें अपने कौशल और आपको किस सहायता की आवश्यकता है, बताएं",
+                "step2-title": "अपना समय प्रदान करें",
+                "step2-desc": "अन्य लोगों को आपके द्वारा प्रदान की जा सकने वाली सेवाओं को साझा करें",
+                "step3-title": "सहायता का अनुरोध करें",
+                "step3-desc": "सामुदायिक सदस्यों से सेवाएं ढूंढें और अनुरोध करें",
+                "step4-title": "अपना शेष ट्रैक करें",
+                "step4-desc": "जब आप मदद करते हैं तो घंटे कमाएं, जब आप सहायता प्राप्त करते हैं तो खर्च करें",
+                "get-started-text": "आरंभ करें",
+                "footer-rights": "सर्वाधिकार सुरक्षित"
+            }
+        };
+
+        // DOM Elements
+        const sections = document.querySelectorAll('.section');
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const themeToggle = document.getElementById('theme-toggle');
+        const languageSelector = document.getElementById('language-selector');
+        const notification = document.getElementById('notification');
+        const requestModal = document.getElementById('request-modal');
+        const welcomeModal = document.getElementById('welcome-modal');
+
+        // State
+        let currentUser = null;
+        let currentLanguage = 'en';
+        let services = [];
+        let requests = [];
+        let exchanges = [];
+
+        // Initialize app
+        function initApp() {
+            loadUserData();
+            setupEventListeners();
+            translatePage();
+            
+            // Show welcome guide if first time
+            if (!localStorage.getItem('timebank_visited')) {
+                welcomeModal.classList.add('active');
+                localStorage.setItem('timebank_visited', 'true');
+            }
+            
+            updateDashboard();
+            loadServices();
+            loadRequests();
+            loadExchanges();
+        }
+
+        // Load user data from localStorage
+        function loadUserData() {
+            const userData = localStorage.getItem('timebank_user');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                document.getElementById('user-name').value = currentUser.name || '';
+                document.getElementById('user-email').value = currentUser.email || '';
+                document.getElementById('user-phone').value = currentUser.phone || '';
+                document.getElementById('user-skills-offer').value = currentUser.skillsOffer || '';
+                document.getElementById('user-skills-request').value = currentUser.skillsRequest || '';
+            }
+        }
+
+        // Save user data to localStorage
+        function saveUserData() {
+            if (currentUser) {
+                localStorage.setItem('timebank_user', JSON.stringify(currentUser));
+            }
+        }
+
+        // Load services from localStorage
+        function loadServices() {
+            const servicesData = localStorage.getItem('timebank_services');
+            if (servicesData) {
+                services = JSON.parse(servicesData);
+            }
+            renderServices();
+        }
+
+        // Save services to localStorage
+        function saveServices() {
+            localStorage.setItem('timebank_services', JSON.stringify(services));
+        }
+
+        // Load requests from localStorage
+        function loadRequests() {
+            const requestsData = localStorage.getItem('timebank_requests');
+            if (requestsData) {
+                requests = JSON.parse(requestsData);
+            }
+        }
+
+        // Save requests to localStorage
+        function saveRequests() {
+            localStorage.setItem('timebank_requests', JSON.stringify(requests));
+        }
+
+        // Load exchanges from localStorage
+        function loadExchanges() {
+            const exchangesData = localStorage.getItem('timebank_exchanges');
+            if (exchangesData) {
+                exchanges = JSON.parse(exchangesData);
+            }
+            updateLeaderboards();
+        }
+
+        // Save exchanges to localStorage
+        function saveExchanges() {
+            localStorage.setItem('timebank_exchanges', JSON.stringify(exchanges));
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Navigation
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const sectionId = button.getAttribute('data-section');
+                    showSection(sectionId);
+                    button.classList.add('active');
+                });
+            });
+
+            // Theme toggle
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // Language selector
+            languageSelector.addEventListener('change', (e) => {
+                currentLanguage = e.target.value;
+                translatePage();
+            });
+
+            // Close modals
+            document.querySelectorAll('.close-modal').forEach(button => {
+                button.addEventListener('click', () => {
+                    requestModal.classList.remove('active');
+                    welcomeModal.classList.remove('active');
+                });
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === requestModal) {
+                    requestModal.classList.remove('active');
+                }
+                if (e.target === welcomeModal) {
+                    welcomeModal.classList.remove('active');
+                }
+            });
+
+            // Offer form submission
+            document.getElementById('offer-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                submitOffer();
+            });
+
+            // Profile form submission
+            document.getElementById('profile-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                saveProfile();
+            });
+
+            // Request service form submission
+            document.getElementById('request-service-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                submitRequest();
+            });
+
+            // Welcome guide start button
+            document.getElementById('start-btn').addEventListener('click', () => {
+                welcomeModal.classList.remove('active');
+                showSection('profile');
+            });
+
+            // Data management buttons
+            document.getElementById('export-data-btn').addEventListener('click', exportData);
+            document.getElementById('import-data-btn').addEventListener('click', () => {
+                document.getElementById('import-file').click();
+            });
+            document.getElementById('import-file').addEventListener('change', importData);
+            document.getElementById('clear-data-btn').addEventListener('click', clearData);
+
+            // Service filtering
+            document.getElementById('search-skill').addEventListener('input', renderServices);
+            document.getElementById('filter-date').addEventListener('change', renderServices);
+            document.getElementById('filter-category').addEventListener('change', renderServices);
+        }
+
+        // Show a specific section
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            
+            navButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            if (sectionId === 'request') {
+                renderServices();
+            } else if (sectionId === 'dashboard') {
+                updateDashboard();
+            } else if (sectionId === 'profile') {
+                loadExchangeHistory();
+            } else if (sectionId === 'community') {
+                loadCommunityData();
+            }
+        }
+
+        // Toggle dark/light theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        }
+
+        // Translate the entire page
+        function translatePage() {
+            document.querySelectorAll('[id]').forEach(element => {
+                const id = element.id;
+                if (translations[currentLanguage][id]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[currentLanguage][id];
+                    } else {
+                        element.textContent = translations[currentLanguage][id];
+                    }
+                }
+            });
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Submit a new service offer
+        function submitOffer() {
+            if (!currentUser) {
+                showNotification('Please create a profile first', 'error');
+                showSection('profile');
+                return;
+            }
+
+            const skill = document.getElementById('offer-skill').value;
+            const hours = parseInt(document.getElementById('offer-hours').value);
+            const date = document.getElementById('offer-date').value;
+            const description = document.getElementById('offer-description').value;
+
+            const service = {
+                id: Date.now().toString(),
+                userId: currentUser.id || 'user-' + Date.now(),
+                userName: currentUser.name,
+                skill,
+                hours,
+                date,
+                description,
+                timestamp: new Date().toISOString()
+            };
+
+            services.push(service);
+            saveServices();
+            renderServices();
+            showNotification('Service offer submitted successfully!');
+            
+            // Reset form
+            document.getElementById('offer-form').reset();
+        }
+
+        // Render available services
+        function renderServices() {
+            const container = document.getElementById('available-services');
+            const searchSkill = document.getElementById('search-skill').value.toLowerCase();
+            const filterDate = document.getElementById('filter-date').value;
+            const filterCategory = document.getElementById('filter-category').value;
+
+            // Filter services
+            let filteredServices = services.filter(service => {
+                const matchesSearch = service.skill.toLowerCase().includes(searchSkill);
+                const matchesDate = !filterDate || service.date === filterDate;
+                return matchesSearch && matchesDate;
+            });
+
+            if (filteredServices.length === 0) {
+                container.innerHTML = '<p>No services available matching your criteria</p>';
+                return;
+            }
+
+            container.innerHTML = filteredServices.map(service => `
+                <div class="card service-card">
+                    <h3 class="card-title">${service.skill}</h3>
+                    <p><strong>${service.hours} hours</strong></p>
+                    <p><i class="far fa-calendar"></i> ${new Date(service.date).toLocaleDateString()}</p>
+                    <p>${service.description || 'No description'}</p>
+                    <p><i class="fas fa-user"></i> ${service.userName}</p>
+                    <button class="btn btn-accent" onclick="openRequestModal('${service.id}')">
+                        <i class="fas fa-hand-holding-heart"></i> Request
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Open request modal
+        function openRequestModal(serviceId) {
+            document.getElementById('service-id').value = serviceId;
+            requestModal.classList.add('active');
+        }
+
+        // Submit a service request
+        function submitRequest() {
+            if (!currentUser) {
+                showNotification('Please create a profile first', 'error');
+                showSection('profile');
+                return;
+            }
+
+            const serviceId = document.getElementById('service-id').value;
+            const message = document.getElementById('request-message').value;
+
+            const service = services.find(s => s.id === serviceId);
+            if (!service) {
+                showNotification('Service not found', 'error');
+                return;
+            }
+
+            const request = {
+                id: Date.now().toString(),
+                serviceId,
+                requesterId: currentUser.id || 'user-' + Date.now(),
+                requesterName: currentUser.name,
+                providerId: service.userId,
+                providerName: service.userName,
+                skill: service.skill,
+                hours: service.hours,
+                message,
+                status: 'pending',
+                timestamp: new Date().toISOString()
+            };
+
+            requests.push(request);
+            saveRequests();
+            requestModal.classList.remove('active');
+            showNotification('Request sent successfully!');
+            
+            // Reset form
+            document.getElementById('request-service-form').reset();
+        }
+
+        // Save user profile
+        function saveProfile() {
+            if (!currentUser) {
+                currentUser = {
+                    id: 'user-' + Date.now(),
+                    balance: 0
+                };
+            }
+
+            currentUser.name = document.getElementById('user-name').value;
+            currentUser.email = document.getElementById('user-email').value;
+            currentUser.phone = document.getElementById('user-phone').value;
+            currentUser.skillsOffer = document.getElementById('user-skills-offer').value;
+            currentUser.skillsRequest = document.getElementById('user-skills-request').value;
+
+            saveUserData();
+            showNotification('Profile saved successfully!');
+        }
+
+        // Update dashboard
+        function updateDashboard() {
+            if (!currentUser) return;
+
+            // Update time balance
+            document.getElementById('time-balance').textContent = currentUser.balance || 0;
+
+            // Update my offers
+            const myOffers = services.filter(service => service.userId === (currentUser.id || ''));
+            const offersList = document.getElementById('my-offers-list');
+            
+            if (myOffers.length === 0) {
+                offersList.innerHTML = '<p>No active offers</p>';
+            } else {
+                offersList.innerHTML = myOffers.map(service => `
+                    <div class="history-item">
+                        <strong>${service.skill}</strong> (${service.hours} hours)
+                        <div class="history-date">${new Date(service.date).toLocaleDateString()}</div>
+                    </div>
+                `).join('');
+            }
+
+            // Update notifications
+            const pendingRequests = requests.filter(req => 
+                req.providerId === (currentUser.id || '') && req.status === 'pending'
+            );
+            
+            const notificationsList = document.getElementById('notifications-list');
+            
+            if (pendingRequests.length === 0) {
+                notificationsList.innerHTML = '<p>No new notifications</p>';
+            } else {
+                notificationsList.innerHTML = pendingRequests.map(req => `
+                    <div class="history-item">
+                        <strong>${req.requesterName}</strong> wants your <strong>${req.skill}</strong> service
+                        <button class="btn btn-secondary" style="margin-top: 10px;" onclick="acceptRequest('${req.id}')">
+                            Accept Request
+                        </button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Accept a service request
+        function acceptRequest(requestId) {
+            const request = requests.find(r => r.id === requestId);
+            if (!request) return;
+
+            // Update request status
+            request.status = 'accepted';
+            saveRequests();
+
+            // Create exchange record
+            const exchange = {
+                id: Date.now().toString(),
+                requesterId: request.requesterId,
+                requesterName: request.requesterName,
+                providerId: request.providerId,
+                providerName: request.providerName,
+                skill: request.skill,
+                hours: request.hours,
+                date: new Date().toISOString(),
+                timestamp: new Date().toISOString()
+            };
+
+            exchanges.push(exchange);
+            saveExchanges();
+
+            // Update balances
+            updateBalances(exchange);
+
+            showNotification('Request accepted! Exchange recorded.');
+            updateDashboard();
+        }
+
+        // Update user balances
+        function updateBalances(exchange) {
+            // Provider earns hours
+            if (!currentUser) return;
+            
+            if (currentUser.id === exchange.providerId) {
+                currentUser.balance = (currentUser.balance || 0) + exchange.hours;
+            }
+            
+            // Requester spends hours (in a real app, we'd update their balance too)
+            saveUserData();
+        }
+
+        // Load exchange history
+        function loadExchangeHistory() {
+            if (!currentUser) return;
+
+            const userExchanges = exchanges.filter(ex => 
+                ex.requesterId === (currentUser.id || '') || 
+                ex.providerId === (currentUser.id || '')
+            );
+
+            const historyContainer = document.getElementById('exchange-history');
+            
+            if (userExchanges.length === 0) {
+                historyContainer.innerHTML = '<p>No exchanges yet</p>';
+                return;
+            }
+
+            historyContainer.innerHTML = userExchanges.map(ex => `
+                <div class="history-item">
+                    <strong>${ex.skill}</strong> (${ex.hours} hours)
+                    <div>${ex.providerName} → ${ex.requesterName}</div>
+                    <div class="history-date">${new Date(ex.date).toLocaleDateString()}</div>
+                </div>
+            `).join('');
+        }
+
+        // Update leaderboards
+        function updateLeaderboards() {
+            // Personal leaderboard
+            const leaderboard = {};
+            exchanges.forEach(ex => {
+                if (!leaderboard[ex.providerId]) {
+                    leaderboard[ex.providerId] = {
+                        name: ex.providerName,
+                        hours: 0
+                    };
+                }
+                leaderboard[ex.providerId].hours += ex.hours;
+            });
+
+            const sortedLeaders = Object.values(leaderboard)
+                .sort((a, b) => b.hours - a.hours)
+                .slice(0, 5);
+
+            const leaderboardList = document.getElementById('leaderboard-list');
+            
+            if (sortedLeaders.length === 0) {
+                leaderboardList.innerHTML = '<p>No data yet</p>';
+            } else {
+                leaderboardList.innerHTML = sortedLeaders.map((leader, index) => `
+                    <div class="leaderboard-item">
+                        <div>
+                            <span class="user-initial">${leader.name.charAt(0)}</span>
+                            ${leader.name}
+                        </div>
+                        <div>${leader.hours} hours</div>
+                    </div>
+                `).join('');
+            }
+
+            // Community leaderboard
+            const communityLeaderboard = document.getElementById('community-leaderboard');
+            communityLeaderboard.innerHTML = leaderboardList.innerHTML;
+        }
+
+        // Load community data
+        function loadCommunityData() {
+            // Recent exchanges
+            const recentExchanges = exchanges
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .slice(0, 5);
+
+            const exchangesContainer = document.getElementById('recent-exchanges');
+            
+            if (recentExchanges.length === 0) {
+                exchangesContainer.innerHTML = '<p>No recent exchanges</p>';
+                return;
+            }
+
+            exchangesContainer.innerHTML = recentExchanges.map(ex => `
+                <div class="history-item">
+                    <strong>${ex.skill}</strong> (${ex.hours} hours)
+                    <div>${ex.providerName} helped ${ex.requesterName}</div>
+                    <div class="history-date">${new Date(ex.timestamp).toLocaleDateString()}</div>
+                </div>
+            `).join('');
+        }
+
+        // Export data
+        function exportData() {
+            const data = {
+                user: currentUser,
+                services: services,
+                requests: requests,
+                exchanges: exchanges
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'timebank-data.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Data exported successfully!');
+        }
+
+        // Import data
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (data.user) currentUser = data.user;
+                    if (data.services) services = data.services;
+                    if (data.requests) requests = data.requests;
+                    if (data.exchanges) exchanges = data.exchanges;
+                    
+                    saveUserData();
+                    saveServices();
+                    saveRequests();
+                    saveExchanges();
+                    
+                    loadUserData();
+                    updateDashboard();
+                    showNotification('Data imported successfully!');
+                } catch (error) {
+                    showNotification('Error importing data', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Clear all data
+        function clearData() {
+            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                localStorage.removeItem('timebank_user');
+                localStorage.removeItem('timebank_services');
+                localStorage.removeItem('timebank_requests');
+                localStorage.removeItem('timebank_exchanges');
+                localStorage.removeItem('timebank_visited');
+                
+                currentUser = null;
+                services = [];
+                requests = [];
+                exchanges = [];
+                
+                loadUserData();
+                updateDashboard();
+                showNotification('All data cleared!');
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
